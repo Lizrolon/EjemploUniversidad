@@ -1,5 +1,5 @@
 
-package universidadmaterias.AccesoADatos;
+package EjemploUniversidad.AccesoADatos;
 
 import java.sql.*;
 import java.util.logging.Level;

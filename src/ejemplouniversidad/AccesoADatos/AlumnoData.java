@@ -1,5 +1,5 @@
 
-package universidadmaterias.AccesoADatos;
+package EjemploUniversidad.AccesoADatos;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -7,7 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import universidadmaterias.Entidades.Alumno;
+import EjemploUniversidad.Entidades.Alumno;
 
 
 public class AlumnoData {
