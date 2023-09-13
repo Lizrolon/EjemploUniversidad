@@ -9,7 +9,7 @@ package EjemploUniversidad.Entidades;
  *
  * @author daniel
  */
-class Materia {
+public class Materia {
    
     private int idMateria;
     private String nombre;
