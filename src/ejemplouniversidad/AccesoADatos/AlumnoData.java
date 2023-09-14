@@ -9,6 +9,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import EjemploUniversidad.Entidades.Alumno;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -30,7 +31,7 @@ public class AlumnoData {
         
         try {
             
-            PreparedStatement ps = con.prepareStatement(sql);
+            PreparedStatement ps = con.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, alumno.getDni());
             ps.setString(2, alumno.getApellido());
             ps.setString(3, alumno.getNombre());
@@ -40,7 +41,7 @@ public class AlumnoData {
             
             ResultSet rs = ps.getGeneratedKeys();
          if(rs.next()){
-             alumno.setIdAlumno(rs.getInt("idAlumno"));
+             alumno.setIdAlumno(rs.getInt(1));
              JOptionPane.showMessageDialog(null, "Alumno agregado éxitosamente");
          
          
@@ -69,10 +70,10 @@ public class AlumnoData {
          if(rs.next()){
               alumno = new Alumno();
               alumno.setIdAlumno(id);
-              alumno.setDni(rs.getInt("Dni: "));
-              alumno.setApellido(rs.getString("Apellido:"));
-              alumno.setNombre(rs.getString("Nombre: "));
-              alumno.setFechaNac(rs.getDate("Fecha de Nacimiento ").toLocalDate());
+              alumno.setDni(rs.getInt("dni"));
+              alumno.setApellido(rs.getString("spellido"));
+              alumno.setNombre(rs.getString("nombre"));
+              alumno.setFechaNac(rs.getDate("fechanacimiento").toLocalDate());
               alumno.setActivo(true);
          
          }else{
@@ -104,10 +105,11 @@ public class AlumnoData {
         if(rs.next()){
         alumno = new Alumno();
         alumno.setDni(dni);
-        alumno.setDni(rs.getInt("Dni: "));
-        alumno.setApellido(rs.getString("Apellido: "));
-        alumno.setNombre(rs.getString("Nombre: "));
-        alumno.setFechaNac(rs.getDate("Fecha de Nacimiento: ").toLocalDate());
+        alumno.setIdAlumno(rs.getInt("idAlumno"));
+        alumno.setDni(rs.getInt("dni"));
+        alumno.setApellido(rs.getString("apellido"));
+        alumno.setNombre(rs.getString("nombre"));
+        alumno.setFechaNac(rs.getDate("fechanacimiento").toLocalDate());
         alumno.setActivo(true);
                 }else{
         JOptionPane.showMessageDialog(null, "El número de dni indicado no coincide con ningún Alumno registrado");
@@ -140,13 +142,13 @@ public class AlumnoData {
             alumno.setDni(rs.getInt("dni"));
             alumno.setApellido(rs.getString("apellido"));
             alumno.setNombre(rs.getString("nombre"));
-            alumno.setFechaNac(rs.getDate("fechaNacimiento").toLocalDate());
+            alumno.setFechaNac(rs.getDate("fechanacimiento").toLocalDate());
             alumno.setActivo(rs.getBoolean("estado"));
             alumnos.add(alumno);
             }
           ps.close();
         } catch (SQLException ex) {
-            Logger.getLogger(AlumnoData.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Error al ingresar a la tabla Alumno");
         }
       
        
@@ -157,7 +159,7 @@ public class AlumnoData {
    }
    public void modificarAlumno(Alumno alumno){
        
-       String sql = "UPDATE alumno SET dni = ?, apellido = ?, nombre = ?, fechaNacimiento = ?, estado = ? WHERE idAlumno = ?";
+       String sql = "UPDATE alumno SET dni = ?, apellido = ?, nombre = ?, fechanacimiento = ?, estado = ? WHERE idAlumno = ?";
        PreparedStatement ps = null;
         try {
              ps = con.prepareStatement(sql);
